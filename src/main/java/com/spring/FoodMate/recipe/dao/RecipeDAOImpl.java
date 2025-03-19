@@ -169,7 +169,7 @@ public class RecipeDAOImpl implements RecipeDAO {
 	@Override
     public int alreadyExistRating(int rcpId, String byrId) throws Exception {
         // 쿼리문 실행 (평점이 이미 존재하는지 확인)
-        return sqlSession.selectOne("mapper.recipe.alreadyExistRating", Map.of("rcpId", rcpId, "byrId", byrId));
+		return sqlSession.selectOne("mapper.recipe.alreadyExistRating", Map.of("rcpId", rcpId, "byrId", byrId));
     }
 	
 	@Override

@@ -209,7 +209,9 @@
 	                        <td>${paymentHS.pay_Date}</td>
 	                        <td>${paymentHS.name}</td>
 	                        <td>₩<fmt:formatNumber value="${paymentHS.tot_Pdt_Price + paymentHS.ship_Fee}" pattern="#,###"/></td>
-	                        <td><c:when test="${paymentHS.ord_stat == 1}">
+	                        <td>
+	                        <c:choose>
+	                        	<c:when test="${paymentHS.ord_stat == 1}">
 							    <button class="btn status-payment">결제 완료</button>
 								</c:when>
 								<c:when test="${paymentHS.ord_stat == 2}">
@@ -221,6 +223,7 @@
 								<c:when test="${paymentHS.ord_stat == 4}">
 								    <button class="btn status-confirmed">구매 확정</button>
 								</c:when>
+							</c:choose>
 							</td>
 	                        <td><a href="${contextPath}/admin/PaymentManage/adminPaymentDetail">상세 보기</a></td>                        
 	                    </tr>
@@ -282,6 +285,16 @@
             </table>
         </div>
 
+       	<%-- 현재 페이지 정보 가져오기 (기본값: 1페이지) --%>
+		<c:set var="RFcurrentPage" value="${param.page != null ? param.page : 1}" />
+		<c:set var="RFitemsPerPage" value="6" />
+		<c:set var="RFstartIndex" value="${(RFcurrentPage - 1) * RFitemsPerPage}" />
+		<c:set var="RFendIndex" value="${RFcurrentPage * RFitemsPerPage}" />
+			
+		<%-- 전체 데이터 개수 구하기 --%>
+		<c:set var="RFtotalItems" value="${fn:length(PaymentRefundList)}" />
+		<fmt:parseNumber var="RFparsedTotalPages" value="${(RFtotalItems + RFitemsPerPage - 1) / RFitemsPerPage}" integerOnly="true" />
+		<c:set var="RFtotalPages" value="${RFparsedTotalPages}" />
         <!-- 환불 관리 -->
         <div id="refundManagement" class="tab-pane">
             <h2>환불 관리</h2>
@@ -296,29 +309,51 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>2025-01-03</td>
-                        <td>사용자 3</td>
-                        <td>₩20,000</td>
-                        <td>처리 중</td>
-                        <td><button class="btn">상세 보기</button></td>
-                    </tr>
-                    <tr>
-                        <td>2025-01-04</td>
-                        <td>사용자 4</td>
-                        <td>₩30,000</td>
-                        <td>완료</td>
-                        <td><button class="btn">상세 보기</button></td>
-                    </tr>
-                    <tr>
-                        <td>2025-01-05</td>
-                        <td>사용자 5</td>
-                        <td>₩15,000</td>
-                        <td>대기</td>
-                        <td><button class="btn">상세 보기</button></td>
-                    </tr>
+                <c:forEach var="paymentRF" items="${PaymentRefundList}" varStatus="status">
+			      	<c:if test="${status.index >= RFstartIndex && status.index < RFendIndex}">
+	                    <tr>
+	                        <td>${paymentRF.pay_Date}</td>
+	                        <td>${paymentRF.name}</td>
+	                        <td>₩<fmt:formatNumber value="${paymentRF.tot_Pdt_Price + paymentRF.ship_Fee}" pattern="#,###"/></td>
+	                        <td>
+	                        <c:choose>
+	                        	<c:when test="${paymentHS.pay_Status == '0'}">
+							    <button class="btn status-payment">대기 중</button>
+								</c:when>
+								<c:when test="${paymentHS.pay_Status == '1'}">
+								    <button class="btn status-shipping">성공</button>
+								</c:when>
+								<c:when test="${paymentHS.pay_Status == '2'}">
+								    <button class="btn status-delivered">취소</button>
+								</c:when>
+								<c:when test="${paymentHS.pay_Status == '3'}">
+								    <button class="btn status-confirmed">환불</button>
+								</c:when>
+							</c:choose>
+							</td>
+	                        <td>${paymentHS.pay_Status}<button class="btn">상세 보기</button></td>
+	                    </tr>
+                	</c:if>
+                </c:forEach>
                 </tbody>
             </table>
+            <!-- 페이지네이션 -->
+				<div class="pagination">
+				    <%-- 이전 페이지 버튼 --%>
+				    <c:if test="${RFcurrentPage > 1}">
+				        <a href="?tab=refundManagement&page=${RFcurrentPage - 1}">이전</a>
+				    </c:if>
+				
+				    <%-- 페이지 번호 표시 --%>
+				    <c:forEach var="i" begin="1" end="${RFtotalPages}">
+				        <a href="?tab=refundManagement&page=${i}" class="${i == RFcurrentPage ? 'active' : ''}">${i}</a>
+				    </c:forEach>
+				
+				    <%-- 다음 페이지 버튼 --%>
+				    <c:if test="${RFcurrentPage < RFtotalPages}">
+				        <a href="?tab=refundManagement&page=${RFcurrentPage + 1}">다음</a>
+				    </c:if>
+				</div>
         </div>
     </div>
 
