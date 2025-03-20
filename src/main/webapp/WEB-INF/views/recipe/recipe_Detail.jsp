@@ -17,7 +17,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" />
 	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/recipe_Detail.css">
 	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	   <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+	<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 </head>
 	
 <body>
@@ -93,7 +94,33 @@
 			        </div>
 			    </c:forEach>
 			</div>
-	<button type="submit" class="submit-btn" onclick="window.location.href='${contextPath}/product/startcompare?rcp_id=${recipe.rcp_id}'">식재료 통합 구매</button>
+	<button type="button" class="submit-btn" data-toggle="modal" data-target="#purchaseModal">
+	    식재료 통합 구매
+	</button>
+	</div>
+	
+	<!-- 버튼 두개 나오는 모달 -->
+	<div class="modal fade" id="purchaseModal" tabindex="-1" aria-labelledby="purchaseModalLabel" aria-hidden="true">
+	    <div class="modal-dialog modal-dialog-centered">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h5 class="modal-title" id="purchaseModalLabel">구매 옵션 선택</h5>
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                    <span aria-hidden="true">&times;</span>
+	                </button>
+	            </div>
+	            <div class="modal-body text-center">
+	                <button type="button" class="btn btn-primary w-100 mb-2" 
+	                        onclick="location.href='${contextPath}/product/startcompare?rcp_id=${recipe.rcp_id}'">
+	                    쇼핑몰에서 구매
+	                </button>
+	                <button type="button" class="btn btn-success w-100" id="localMarketBtn"
+	                onclick="location.href='${contextPath}/product/findgrocery?rcp_id=${recipe.rcp_id}'">
+	                    주변 식료품점 찾아보기
+	                </button>
+	            </div>
+	        </div>
+	    </div>
 	</div>
 	
 	<!-- 조리법 -->
@@ -561,6 +588,10 @@
 		</div>
 
 	</div>
+	
+	
+	
+	
     <script>
     
 	 // ▼ 전체 질문 및 답변 보기 버튼

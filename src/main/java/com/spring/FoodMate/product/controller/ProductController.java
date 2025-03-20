@@ -266,6 +266,41 @@ public class ProductController {
 		return mav;
 	}
 	
+	@RequestMapping(value="/product/compareatgrocery", method=RequestMethod.GET)
+	public ModelAndView compareAtGrocery(@RequestParam(value = "grocery_id") int grocery_id, HttpServletRequest request, HttpSession session) throws Exception {
+		
+		int rcp_id = (int) session.getAttribute("rcp_id");
+		
+		RecipeDTO recipe = recipeService.recipe(rcp_id); 
+		if(recipe == null) {
+			throw new RecipeException(301); // 301은 검색한 레시피가 DB에 존재하지않는다는뜻임
+		}
+		
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("common/layout_noBootStrap");
+		mav.addObject("showNavbar", true);
+		mav.addObject("title", "재료 비교");
+		mav.addObject("body", "/WEB-INF/views" + UtilMethod.getViewName(request) + ".jsp");
+		Map<String, Object> um = recipeService.selectRecipeDetail(rcp_id);
+		mav.addObject("recipe", um.get("recipe"));
+		mav.addObject("ingredients", um.get("ingredients"));
+		mav.addObject("steps", um.get("steps"));
+		return mav;
+	}
+	
+	
+	@RequestMapping(value="/product/findgrocery", method=RequestMethod.GET)
+	public ModelAndView findGrocery(@RequestParam(value = "rcp_id") int rcp_id, HttpServletRequest request, HttpSession session) throws Exception {
+		session.setAttribute("rcp_id", rcp_id);
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("common/layout");
+		mav.addObject("showNavbar", true);
+		mav.addObject("title", "주변 식료품점 찾기");
+		mav.addObject("body", "/WEB-INF/views" + UtilMethod.getViewName(request) + ".jsp");
+		return mav;
+	}
+	
+	
 	
 	@RequestMapping(value="/product/categorycompare", method=RequestMethod.GET)
 	@ResponseBody
