@@ -58,7 +58,7 @@ public class ProfileController {
 
             if (file != null && !file.isEmpty()) {
                 // 새로운 이미지 저장
-            	String imagePath = UtilMethod.saveProfileImage(_profileDTO.getProfileImageInput(), byr_id);
+            	String imagePath = UtilMethod.saveProfileImage(request, _profileDTO.getProfileImageInput(), byr_id);
                 _profileDTO.setImg_path(imagePath);
             } else {
                 // 기존 이미지 유지
@@ -113,7 +113,7 @@ public class ProfileController {
 
             if (file != null && !file.isEmpty()) {
                 // 새로운 이미지 저장
-            	String imagePath = UtilMethod.saveProfileImage(_profileDTO.getProfileImageInput(), slr_id);
+            	String imagePath = UtilMethod.saveProfileImage(request, _profileDTO.getProfileImageInput(), slr_id);
                 _profileDTO.setImg_path(imagePath);
             } else {
                 // 기존 이미지 유지

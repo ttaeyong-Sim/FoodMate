@@ -149,7 +149,7 @@ public class ProductService {
 			newPdt.setSlr_id(slr_id);
 			// 세션에서 id꺼내와서 ProductDTO newPdt에 저장
 			
-			String imagePath = UtilMethod.savePdtImage(newPdt.getPdt_img(), 1); // 유틸메서드로 일단 경로에 이미지 저장해
+			String imagePath = UtilMethod.savePdtImage(request, newPdt.getPdt_img(), 1); // 유틸메서드로 일단 경로에 이미지 저장해
 		    newPdt.setImg_path(imagePath);
 		    // newPdt에서 멀티파트파일형 이미지파일 꺼내와서 서버에 저장하고 저장경로 받아와서 newPdt에 저장
 			
@@ -161,7 +161,7 @@ public class ProductService {
 				// 오류나면 로깅하면서 에러띄움
 			}
 			
-			boolean result2 = insertProductDescImgs(newPdt);
+			boolean result2 = insertProductDescImgs(request, newPdt);
 			// 상품설명이미지들 다른테이블에 저장
 			
 			boolean result3 = (result > 0) || result2;
@@ -172,14 +172,14 @@ public class ProductService {
 		}
 	}
 	
-	public boolean insertProductDescImgs(ProductDTO newPdt) throws Exception {
+	public boolean insertProductDescImgs(HttpServletRequest request,ProductDTO newPdt) throws Exception {
 	    List<MultipartFile> descimgs = newPdt.getPdt_descimg();
 	    int pdt_id = productDAO.getNewPdtId(); //방금만들어진 상품아이디 갖고오기
 
 	    // 향상된 for문을 사용하여 각 MultipartFile에 대해 처리
 	    for (MultipartFile file : descimgs) {
 	        if (!file.isEmpty()) { // 꺼내온 파일이 비어있지않으면
-	        	String imgPath = UtilMethod.savePdtImage(file, 2);
+	        	String imgPath = UtilMethod.savePdtImage(request, file, 2);
 	            int result = productDAO.insertProductDescImg(pdt_id, imgPath);
 	            if (result < 1) {
 	            	System.out.println("상품설명이미지넣는중오류");

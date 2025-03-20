@@ -41,7 +41,7 @@ public interface RecipeController {
             List<Integer> stepNumbers, 
             List<String> stepDescriptions,
             List<MultipartFile> stepImages, 
-            
+            HttpServletRequest request,
             HttpSession session
         ) throws Exception;
     

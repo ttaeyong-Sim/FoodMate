@@ -242,7 +242,7 @@
 				 <!-- 자식 카테고리들을 넣을 div -->
 				</div>
 			</section>
-				<input type="number" id="category_id" name="category_id" readonly>
+				<input type="hidden" id="category_id" name="category_id" readonly>
 		    
 		    <div>
 		        <label for="req_time">조리 시간:</label>
@@ -284,7 +284,7 @@
 				    </div>
 				</section>
 				
-					<input type="number" class="ingrd_category_id" name="ingrd_category_id" readonly>
+					<input type="hidden" class="ingrd_category_id" name="ingrd_category_id" readonly>
 		            
 		            <label for="ingrd_name">재료 이름:</label>
 		            <input type="text" name="ingrd_name" placeholder="재료 이름 입력" required>
@@ -505,7 +505,7 @@ $(document).ready(function() {
                 </div>
             </section>
             
-            <input type="number" class="ingrd_category_id_` + ingredientCount + `" name="ingrd_category_id" readonly>  <!-- 카테고리 ID hidden input -->
+            <input type="hidden" class="ingrd_category_id_` + ingredientCount + `" name="ingrd_category_id" readonly>  <!-- 카테고리 ID hidden input -->
 
             <label for="ingrd_name_` + ingredientCount + `">재료 이름:</label>
             <input type="text" id="ingrd_name_` + ingredientCount + `" name="ingrd_name" placeholder="재료 이름 입력" required>

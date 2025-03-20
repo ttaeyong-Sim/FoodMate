@@ -170,7 +170,7 @@ public class ProductController {
 			editPdt.setImg_path(productService.select1PdtByPdtId(oldPdt_id).getImg_path());
 		} else {
 		// 사진첨부 했으면 사진 넣어, 나중에 옛날사진 삭제하는 기능 넣어
-			String imagePath = UtilMethod.savePdtImage(editPdt.getPdt_img(), 1); // 유틸메서드로 일단 경로에 이미지 저장해
+			String imagePath = UtilMethod.savePdtImage(request, editPdt.getPdt_img(), 1); // 유틸메서드로 일단 경로에 이미지 저장해
 			editPdt.setImg_path(imagePath);
 		}
 		

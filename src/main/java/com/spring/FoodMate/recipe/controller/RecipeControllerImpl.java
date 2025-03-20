@@ -276,7 +276,7 @@ public class RecipeControllerImpl implements RecipeController {
 	    @RequestParam(value = "step_desc") List<String> stepDescriptions,
 	    @RequestParam(value = "stepimg_path") List<MultipartFile> stepImages,
 	    
-
+	    HttpServletRequest request,
 	    HttpSession session
 	) throws Exception {
 	    System.out.println("가져온 레시피 카테고리 id : " + category_id);
@@ -296,7 +296,7 @@ public class RecipeControllerImpl implements RecipeController {
 	    recipe.setByr_id(byr_id);
 	    
 	    if (!mainImg.isEmpty()) {
-	        String mainImgPath = UtilMethod.saveRecipeImage(mainImg);
+	        String mainImgPath = UtilMethod.saveRecipeImage(request, mainImg);
 	        recipe.setMainimg_path(mainImgPath);
 	    }
 	    
@@ -333,7 +333,7 @@ public class RecipeControllerImpl implements RecipeController {
 	            step.setRcp_step(stepNumbers.get(i));
 	            step.setStep_desc(stepDescriptions.get(i));
 	            if (!(stepImages == null || stepImages.isEmpty() || stepImages.get(0).getSize() == 0)) {
-	                String stepImgPath = UtilMethod.saveRecipeImage(stepImages.get(i));
+	                String stepImgPath = UtilMethod.saveRecipeImage(request, stepImages.get(i));
 	                step.setStepimg_path(stepImgPath);
 	            }
 	            steps.add(step);
